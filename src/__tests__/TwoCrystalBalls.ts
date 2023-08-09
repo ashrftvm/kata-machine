@@ -12,3 +12,10 @@ test("two crystal balls", function () {
     expect(two_crystal_balls(new Array(821).fill(false))).toEqual(-1);
 });
 
+test("edge case", function () {
+    let arr = [false, true, true, true, true];
+    let arr2 = [true, true, true, true, true];
+
+    expect(two_crystal_balls(arr)).toEqual(1);
+    expect(two_crystal_balls(arr2)).toEqual(0);
+});
