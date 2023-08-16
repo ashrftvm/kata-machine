@@ -4,12 +4,12 @@ type Node<T> = {
 }
 export default class Stack<T> {
     public length: number;
-    public head: Node<T> | undefined;
-    public prev: Node<T> | undefined;
+    private head: Node<T> | undefined;
+    private prev: Node<T> | undefined;
 
 
     constructor() {
-        this.head = this.prev = undefined;
+        this.head = undefined;
         this.length = 0;
     }
 
