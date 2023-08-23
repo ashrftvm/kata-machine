@@ -38,21 +38,18 @@ export default class DoublyLinkedList<T> {
             return
         }
 
-        let curr = this.head
-        for (let i = 0; curr && i < idx; i++) {
-            curr = curr.next
-        }
+        const curr = this.getAt(idx) as Node<T>
 
         this.length++;
-        curr = curr as Node<T>
+        // curr = curr as Node<T>
         const node = { value: item } as Node<T>
 
         node.next = curr;
         node.prev = curr?.prev
         curr.prev = node;
 
-        if (curr.prev) {
-            curr.prev.next = curr
+        if (node.prev) {
+            node.prev.next = node
         }
 
     }
@@ -77,10 +74,29 @@ export default class DoublyLinkedList<T> {
             curr = curr.next
         }
 
-        if(!curr){
+        if (!curr) {
             return undefined
         }
-        
+
+        return this.removeNode(curr)
+
+    }
+    get(idx: number): T | undefined {
+        if (this.length === 0) {
+            return undefined
+        }
+        return this.getAt(idx)?.value
+
+    }
+    removeAt(idx: number): T | undefined {
+        const node = this.getAt(idx);
+        if (!node) {
+            return undefined
+        }
+        return this.removeNode(node)
+    }
+
+    private removeNode(node: Node<T>): T | undefined {
         this.length--;
         if (this.length === 0) {
             const out = this.head?.value
@@ -88,29 +104,33 @@ export default class DoublyLinkedList<T> {
             return out
         }
 
-        if(curr.prev){
-            curr.prev = curr.next
+        if (node.prev) {
+            node.prev.next = node.next
         }
 
-        if(curr.next){
-            curr.next = curr.prev
+        if (node.next) {
+            node.next.prev = node.prev
         }
 
-        if(curr === this.head){
-            this.head = curr.next
+        if (node === this.head) {
+            this.head = node.next
         }
 
-        if(curr === this.tail){
-            this.tail = curr.prev
+        if (node === this.tail) {
+            this.tail = node.prev
         }
 
-        curr.next = curr.prev = undefined
-        return curr.value
+        node.next = node.prev = undefined
+        return node.value
     }
-    get(idx: number): T | undefined {
 
-    }
-    removeAt(idx: number): T | undefined {
+    private getAt(idx: number): Node<T> | undefined {
 
+        let curr = this.head
+        for (let i = 0; curr && i < idx; i++) {
+            curr = curr?.next
+        }
+
+        return curr
     }
 }
