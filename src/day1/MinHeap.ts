@@ -54,6 +54,25 @@ export default class MinHeap {
         return 2 * idx + 2;
     };
 
-    insert(value: number): void {}
-    delete(): number {}
+    insert(value: number): void {
+        this.data[this.length] = value;
+        this.heapifyUp(this.length);
+        this.length++;
+    }
+    delete(): number {
+        if (this.length === 0) {
+            return -1
+        }
+        const out = this.data[0]
+        this.length--;
+
+        if(this.length === 0){
+            this.data = [];
+            return out
+        }
+
+        this.data[0] = this.data[this.length]
+        this.heapifyDown(0);
+        return out
+    }
 }
